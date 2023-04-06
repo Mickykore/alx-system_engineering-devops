@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 # Configure Nginx so that its HTTP response contains a custom header
-#!/usr/bin/env bash
-# duplicate web-01 to web-02
-# these scripts are an upgrade from the web-server scripts...
-
-# uncomment to see the script run in action
-#set -x
 
 # colors
 blue='\e[1;34m'
