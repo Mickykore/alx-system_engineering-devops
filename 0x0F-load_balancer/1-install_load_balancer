@@ -4,23 +4,25 @@
 # Distribute requests using a roundrobin algorithm
 # Make sure that HAProxy can be managed via an init script
 # Install and configure HAproxy on my lb-01 server.
-sudo apt-get -y update
-apt-get -y install haproxy
 
-# edit config file
-server_config=\
-"
-frontend webmicky-frontend
-        bind *:80
-        mode http
-        default_backend webmicky-backend
-backend webmicky-backend
-        balance roundrobin
-        server 101651-web-01 54.162.51.43:80 check
-        server 101651-web-02 54.90.28.55:80 check
-"
-# Enable HAproxy service
-systemctl enable haproxy.service
 
-# Restart HAproxy
-systemctl restart haproxy.service
+apt-get install -y software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-1.8
+apt-get -y update
+apt-get install -y haproxy=1.8.\*
+
+echo "ENABLED=1" > /etc/default/haproxy
+
+# Listen to web1 and web2 servers
+echo "
+   listen load_balancer
+   bind *:80
+   mode http
+   balance roundrobin
+   option httpclose
+   option forwardfor
+   server 101651-web-01 54.162.51.43:80 check
+   server 101651-web-02 54.90.28.55:80 check
+" >> /etc/haproxy/haproxy.cfg
+
+service haproxy start
