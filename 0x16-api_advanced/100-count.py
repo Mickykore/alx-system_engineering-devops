@@ -1,13 +1,21 @@
 #!/usr/bin/python3
-"""Function to count words in all hot posts from a given Reddit subreddit."""
+"""Function to count words in all hot posts for a given Reddit subreddit."""
 import requests
 
 
 def count_words(subreddit, word_list, instances={}, after="", count=0):
-    """Prints counts of given words found in hot posts from  given subreddit. """
+    """Prints counts of given words found in hot posts for a given subreddit.
+
+    Args:
+        subreddit (str): The subreddit search.
+        word_list (list): The list of words search in post titles.
+        instances (obj): Key/value pairs of words/counts.
+        after (str): The parameter for the next page of API results.
+        count (int): The parameter of results matched thus far.
+    """
     url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
     headers = {
-            'User-Agent': 'Mozilla/5.0'
+        "User-Agent": "Mozilla/5.0"
     }
     params = {
         "after": after,
